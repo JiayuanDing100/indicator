@@ -4,9 +4,8 @@ from spacy.attrs import LOWER, IS_ASCII, DEP, FLAG30, FLAG31, FLAG32, FLAG33, FL
 def set_flag(nlp, token_l, flag):
     # for t in token_l:
         # elst = map(''.join, itertools.product(*((c.upper(), c.LEMMA()) for c in t)))
-    for lexeme in nlp.vocab:
-        if lexeme.lemma_ in token_l:
-            lexeme.set_flag(flag, True)
+    for lexeme in token_l:
+        nlp.vocab[lexeme.decode('utf8')].set_flag(flag, True)
 
 def load_multi_girl_matcher(nlp):
     matcher = Matcher(nlp.vocab)
