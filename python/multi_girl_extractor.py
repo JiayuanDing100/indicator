@@ -1,5 +1,5 @@
 from spacy.matcher import Matcher
-from spacy.attrs import LOWER, IS_ASCII, DEP, FLAG30, FLAG31, FLAG32, FLAG33, FLAG34, ORTH, LEMMA, TAG
+from spacy.attrs import LOWER, DEP, FLAG30, FLAG31, FLAG32, FLAG33, FLAG34, ORTH, LEMMA, TAG, IS_ALPHA
 
 def set_flag(nlp, token_l, flag):
     # for t in token_l:
