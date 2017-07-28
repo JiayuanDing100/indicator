@@ -22,20 +22,20 @@ def find_subset(line_sub, incall_data_140_f):
             print i
             print line_sub
             return True
-    incall_data_140.close()
+    open(incall_data_140_f, 'r').close()
     return False
 
 relaxed_lower_dedupe = open(relaxed_lower_dedupe_f,'r').read().splitlines()
 relaxed_text = []
 for line in relaxed_lower_dedupe:
     relaxed_text.append(line.strip())
-relaxed_lower_dedupe.close()
+open(relaxed_lower_dedupe_f,'r').close()
 
 relaxed_lower_dedupe_remove = open(relaxed_lower_dedupe_incall_f, 'w')
 
 for line in relaxed_text:
     if not find_subset(line, incall_data_140_f):
         relaxed_lower_dedupe_remove.write('%s\n' % line.strip())
-relaxed_lower_dedupe_remove.close()
+open(relaxed_lower_dedupe_incall_f, 'w').close()
 
 
