@@ -8,11 +8,12 @@ import movement_extractor
 import risky_activities_extractor
 import outcall_extractor
 import agency_extractor
+import webcam_extractor
 
 input_file = sys.argv[1]
 
 nlp = spacy.load('en')
-agency_matcher = agency_extractor.load_agency_matcher(nlp)
+webcam_matcher = webcam_extractor.load_webcam_matcher(nlp)
 nlp = pf.prep_nlp(nlp)
 
 positive_f = open(sys.argv[2], 'w')
@@ -29,8 +30,8 @@ with open(input_file, 'r') as f:
             print "process line no.%d" %index
         t = pf.extract_crftokens(sentence.decode("utf-8"), lowercase=True)
         t_simple_tokens = pf.extract_tokens_from_crf(t)
-        agency = agency_extractor.extract(nlp(t_simple_tokens), agency_matcher)
-        label = pf.process_extracted(agency)
+        webcam = webcam_extractor.extract(nlp(t_simple_tokens), webcam_matcher)
+        label = pf.process_extracted(webcam)
         if label == "NE":
             ne_f.write(sentence.lower())
         elif label == "ONLY_P":
