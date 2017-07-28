@@ -10,15 +10,13 @@ import outcall_extractor
 import agency_extractor
 
 input_file = sys.argv[1]
-positive_text = sys.argv[2]
-negative_text = sys.argv[3]
 
 nlp = spacy.load('en')
 agency_matcher = agency_extractor.load_agency_matcher(nlp)
 nlp = pf.prep_nlp(nlp)
 
-positive_f = open(positive_text, 'w')
-negative_f = open(negative_text, 'w')
+positive_f = open(sys.argv[2], 'w')
+negative_f = open(sys.argv[3], 'w')
 sp_sn_f = open(sys.argv[4], 'w')
 sp_n_f = open(sys.argv[5], 'w')
 sn_p_f = open(sys.argv[6], 'w')
