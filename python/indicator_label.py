@@ -14,7 +14,7 @@ positive_text = sys.argv[2]
 negative_text = sys.argv[3]
 
 nlp = spacy.load('en')
-multi_girl_matcher = multi_girl_extractor.load_multi_girl_matcher(nlp)
+agency_matcher = agency_extractor.load_agency_matcher(nlp)
 nlp = pf.prep_nlp(nlp)
 
 positive_f = open(positive_text, 'w')
@@ -31,8 +31,8 @@ with open(input_file, 'r') as f:
             print "process line no.%d" %index
         t = pf.extract_crftokens(sentence.decode("utf-8"), lowercase=True)
         t_simple_tokens = pf.extract_tokens_from_crf(t)
-        multi_girl = multi_girl_extractor.extract(nlp(t_simple_tokens), multi_girl_matcher)
-        label = pf.process_extracted(multi_girl)
+        agency = agency_extractor.extract(nlp(t_simple_tokens), agency_matcher)
+        label = pf.process_extracted(agency)
         if label == "NE":
             ne_f.write(sentence.lower())
         elif label == "ONLY_P":
