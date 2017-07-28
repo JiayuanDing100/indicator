@@ -1,15 +1,20 @@
 import sys
 import process_functions as pf
 import spacy
+import multi_girl_extractor
+import credit_card_extractor
+import incall_extractor
 import movement_extractor
+import risky_activities_extractor
+import outcall_extractor
+import agency_extractor
 
 input_file = sys.argv[1]
 positive_text = sys.argv[2]
 negative_text = sys.argv[3]
 
 nlp = spacy.load('en')
-movement_matcher = movement_extractor.load_movement_matcher(nlp)
-#incall_matcher = incall_extractor.load_movement_matcher(nlp)
+multi_girl_matcher = multi_girl_extractor.load_multi_girl_matcher(nlp)
 nlp = pf.prep_nlp(nlp)
 
 positive_f = open(positive_text, 'w')
@@ -24,25 +29,24 @@ with open(input_file, 'r') as f:
     for index, sentence in enumerate(f):
         if index % 10000 == 0:
             print "process line no.%d" %index
-        t = pf.extract_crftokens(sentence.decode("utf-8"), lowercase=False)
+        t = pf.extract_crftokens(sentence.decode("utf-8"), lowercase=True)
         t_simple_tokens = pf.extract_tokens_from_crf(t)
-        movement = movement_extractor.extract(nlp(t_simple_tokens), movement_matcher)
-        #incall = incall_extractor.extract(nlp(t_simple_tokens), incall_matcher)
-        label = pf.process_extracted(movement)
+        multi_girl = multi_girl_extractor.extract(nlp(t_simple_tokens), multi_girl_matcher)
+        label = pf.process_extracted(multi_girl)
         if label == "NE":
-            ne_f.write(sentence)
+            ne_f.write(sentence.lower())
         elif label == "ONLY_P":
-            positive_f.write(sentence)
+            positive_f.write(sentence.lower())
         elif label == "ONLY_N":
-            negative_f.write(sentence)
+            negative_f.write(sentence.lower())
         elif label == "SP_SN":
-            sp_sn_f.write(sentence)
+            sp_sn_f.write(sentence.lower())
         elif label == "SP_N":
-            sp_n_f.write(sentence)
+            sp_n_f.write(sentence.lower())
         elif label == "SN_P":
-            sn_p_f.write(sentence)
+            sn_p_f.write(sentence.lower())
         elif label == "ONLY_P_N":
-            p_n_f.write(sentence)
+            p_n_f.write(sentence.lower())
 
 positive_f.close()
 negative_f.close()
@@ -51,4 +55,3 @@ sp_n_f.close()
 sn_p_f.close()
 p_n_f.close()
 ne_f.close()
-
