@@ -60,6 +60,7 @@ def load_risky_activities_matcher(nlp):
     matcher.add_pattern(2, [{LEMMA: "hardcore"}, {LEMMA: "service"}])
     
     matcher.add_entity(3)
+    matcher.add_pattern(2, [{LEMMA: "hardcore"}])
     
     matcher.add_entity(4)
     matcher.add_pattern(4, [{LEMMA: "greek"}, {IS_DIGIT: True}])

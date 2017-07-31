@@ -9,13 +9,13 @@ import risky_activities_extractor
 import outcall_extractor
 import agency_extractor
 import webcam_extractor
-import derogatory_mentions_extractor
+import hotel_extractor
 import derogatory_mentions_extractor
 
 input_file = sys.argv[1]
 
 nlp = spacy.load('en')
-derogatory_mentions_matcher = derogatory_mentions_extractor.load_derogatory_mentions_matcher(nlp)
+risky_activities_matcher = risky_activities_extractor.load_risky_activities_matcher(nlp)
 nlp = pf.prep_nlp(nlp)
 
 positive_f = open(sys.argv[2], 'w')
@@ -32,8 +32,8 @@ with open(input_file, 'r') as f:
             print "process line no.%d" %index
         t = pf.extract_crftokens(sentence.decode("utf-8"), lowercase=True)
         t_simple_tokens = pf.extract_tokens_from_crf(t)
-        derogatory_mentions = derogatory_mentions_extractor.extract(nlp(t_simple_tokens), derogatory_mentions_matcher)
-        label = pf.process_extracted(derogatory_mentions)
+        risky_activities = risky_activities_extractor.extract(nlp(t_simple_tokens), risky_activities_matcher)
+        label = pf.process_extracted(risky_activities)
         if label == "NE":
             ne_f.write(sentence.lower())
         elif label == "ONLY_P":
